@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BST Sorting and Searching</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { padding-top: 40px; }
+    .output-box { white-space: pre-wrap; font-family: monospace; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2 class="text-center mb-4">Binary Search Tree (BST) – Search & Sort</h2>
+
+  <!-- Insert Element -->
+  <div class="mb-3">
+    <label for="insertVal" class="form-label">Insert Integer:</label>
+    <input type="number" id="insertVal" class="form-control" />
+    <button class="btn btn-primary mt-2" onclick="insertNode()">Insert</button>
+  </div>
+
+  <!-- Search Element -->
+  <div class="mb-3">
+    <label for="searchVal" class="form-label">Search Integer:</label>
+    <input type="number" id="searchVal" class="form-control" />
+    <button class="btn btn-secondary mt-2" onclick="searchNode()">Search</button>
+    <p id="searchResult" class="mt-2"></p>
+  </div>
+
+  <!-- Sorted Output -->
+  <div class="mb-3">
+    <button class="btn btn-success" onclick="showSorted()">Show Sorted (In-order Traversal)</button>
+    <div id="sortedOutput" class="output-box mt-2"></div>
+  </div>
+</div>
+
+<script>
+  // BST Node Class
+  class TreeNode {
+    constructor(value) {
+      this.value = value;
+      this.left = null;
+      this.right = null;
+    }
+  }
+
+  // BST Class
+  class BinarySearchTree {
+    constructor() {
+      this.root = null;
+    }
+
+    insert(value) {
+      this.root = this._insertRec(this.root, value);
+    }
+
+    _insertRec(node, value) {
+      if (!node) return new TreeNode(value);
+      if (value < node.value) node.left = this._insertRec(node.left, value);
+      else if (value > node.value) node.right = this._insertRec(node.right, value);
+      return node;
+    }
+
+    search(value) {
+      return this._searchRec(this.root, value);
+    }
+
+    _searchRec(node, value) {
+      if (!node) return false;
+      if (value === node.value) return true;
+      if (value < node.value) return this._searchRec(node.left, value);
+      else return this._searchRec(node.right, value);
+    }
+
+    inOrderTraversal() {
+      let result = [];
+      this._inOrder(this.root, result);
+      return result;
+    }
+
+    _inOrder(node, result) {
+      if (node) {
+        this._inOrder(node.left, result);
+        result.push(node.value);
+        this._inOrder(node.right, result);
+      }
+    }
+  }
+
+  // Instantiate BST
+  const bst = new BinarySearchTree();
+
+  // UI Functions
+  function insertNode() {
+    const val = parseInt(document.getElementById("insertVal").value);
+    if (!isNaN(val)) {
+      bst.insert(val);
+      document.getElementById("insertVal").value = '';
+      alert("Inserted " + val);
+    }
+  }
+
+  function searchNode() {
+    const val = parseInt(document.getElementById("searchVal").value);
+    const result = bst.search(val);
+    document.getElementById("searchResult").textContent = result
+      ? `✅ Found ${val}`
+      : `❌ ${val} not found`;
+  }
+
+  function showSorted() {
+    const sorted = bst.inOrderTraversal();
+    document.getElementById("sortedOutput").textContent = sorted.join(', ');
+  }
+</script>
+</body>
+</html>
