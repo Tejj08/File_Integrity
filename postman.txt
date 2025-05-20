@@ -1,0 +1,28 @@
+http://localhost:8080/api/consumer
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "address": "Bangalore"
+}
+
+http://localhost:8080/api/bill/1?units=275
+
+http://localhost:8080/api/bill/1?units=275
+
+
+http://localhost:3000/api/consumers
+{
+  "name": "John Doe",
+  "address": "123 Main St",
+  "phone": "1234567890"
+}
+
+
+http://localhost:3000/api/billing
+{
+  "consumer_id": 1,
+  "units_consumed": 275
+}
+
+for node
